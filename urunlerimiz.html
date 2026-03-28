@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ürünlerimiz | Wilderidge Craft - El Yapımı Hakiki Deri Erkek Cüzdan</title>
+  <meta name="description" content="Wilderidge Craft el yapımı hakiki deri erkek cüzdan. Çıtçıtlı minimal tasarım, kartlık ve para bölmeli. %100 hakiki deri.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Product Image Gallery */
+    .product-gallery {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 1rem;
+      height: 550px;
+    }
+
+    .gallery-thumbs {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      overflow-y: auto;
+    }
+
+    .gallery-thumb {
+      width: 100px;
+      height: 100px;
+      border: 2px solid var(--color-border);
+      border-radius: 2px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all var(--transition-fast);
+      flex-shrink: 0;
+    }
+
+    .gallery-thumb:hover,
+    .gallery-thumb.active {
+      border-color: var(--color-gold);
+    }
+
+    .gallery-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gallery-main {
+      overflow: hidden;
+      border-radius: 2px;
+      border: 1px solid var(--color-border);
+      background: var(--color-bg-alt);
+    }
+
+    .gallery-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Product Info Styles */
+    .product-page-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+      padding: 4rem 0;
+    }
+
+    .product-info-section h1 {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+
+    .product-info-section .product-subtitle {
+      font-size: 1rem;
+      color: var(--color-gold);
+      margin-bottom: 1.5rem;
+      font-weight: 400;
+    }
+
+    .product-info-section .product-description {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: var(--color-text-muted);
+      margin-bottom: 2rem;
+    }
+
+    /* Specs Table */
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+
+    .specs-table tr {
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .specs-table td {
+      padding: 0.85rem 0;
+      font-size: 0.88rem;
+    }
+
+    .specs-table td:first-child {
+      color: var(--color-text-muted);
+      width: 45%;
+      font-weight: 400;
+    }
+
+    .specs-table td:last-child {
+      color: var(--color-cream);
+      font-weight: 500;
+    }
+
+    .product-cta-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .trendyol-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      background: #f27a1a;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-radius: 2px;
+      transition: all var(--transition-fast);
+    }
+
+    .trendyol-link:hover {
+      background: #e06a0a;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(242, 122, 26, 0.3);
+    }
+
+    /* Photo detail cards */
+    .photo-showcase {
+      padding: 4rem 0;
+    }
+
+    .photo-showcase-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .photo-showcase-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 2px;
+      border: 1px solid var(--color-border);
+      height: 450px;
+      transition: all var(--transition-normal);
+    }
+
+    .photo-showcase-card:hover {
+      border-color: var(--color-border-hover);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .photo-showcase-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform var(--transition-slow);
+    }
+
+    .photo-showcase-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .photo-showcase-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 2rem;
+      background: linear-gradient(transparent, rgba(12, 10, 9, 0.9));
+    }
+
+    .photo-showcase-caption h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .photo-showcase-caption p {
+      font-size: 0.82rem;
+      color: var(--color-cream-muted);
+    }
+
+    /* Barcode badge */
+    .barcode-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.8rem;
+      background: rgba(201, 169, 110, 0.08);
+      border: 1px solid var(--color-border);
+      font-size: 0.72rem;
+      font-family: monospace;
+      color: var(--color-text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .product-page-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .product-gallery {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+
+      .gallery-thumbs {
+        flex-direction: row;
+        order: 2;
+      }
+
+      .gallery-thumb {
+        width: 70px;
+        height: 70px;
+      }
+
+      .gallery-main {
+        height: 400px;
+        order: 1;
+      }
+
+      .photo-showcase-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .photo-showcase-card {
+        height: 350px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header" id="header">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <span class="logo-brand">Wilderidge Craft</span>
+        <span class="logo-tagline">Handcrafted Leather Goods</span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">Ana Sayfa</a>
+        <a href="hakkimizda.html">Hakkımızda</a>
+        <a href="urunlerimiz.html" class="active">Ürünlerimiz</a>
+        <a href="iletisim.html">İletişim</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Menü">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div class="nav-overlay" id="navOverlay"></div>
+  </header>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="section-label">Ürünümüz</span>
+      <h1>El Yapımı Hakiki Deri Erkek Cüzdan</h1>
+      <p>Çıtçıtlı Minimal Tasarım – Kartlık & Para Bölmeli</p>
+      <div class="breadcrumb">
+        <a href="index.html">Ana Sayfa</a>
+        <span>/</span>
+        <span>Ürünlerimiz</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT DETAIL -->
+  <section style="background: var(--color-bg);">
+    <div class="container">
+      <div class="product-page-grid">
+        <!-- Gallery -->
+        <div class="product-gallery animate-on-scroll">
+          <div class="gallery-thumbs">
+            <div class="gallery-thumb active" onclick="changeImage('img/wallet-front.png', this)">
+              <img src="img/wallet-front.png" alt="Ön Görünüm">
+            </div>
+            <div class="gallery-thumb" onclick="changeImage('img/wallet-open.png', this)">
+              <img src="img/wallet-open.png" alt="Açık Görünüm">
+            </div>
+            <div class="gallery-thumb" onclick="changeImage('img/wallet-hand.png', this)">
+              <img src="img/wallet-hand.png" alt="Elde Görünüm">
+            </div>
+            <div class="gallery-thumb" onclick="changeImage('img/wallet-lifestyle.png', this)">
+              <img src="img/wallet-lifestyle.png" alt="Yaşam Tarzı">
+            </div>
+            <div class="gallery-thumb" onclick="changeImage('img/wallet-original.jpg', this)">
+              <img src="img/wallet-original.jpg" alt="Detay Görünüm">
+            </div>
+          </div>
+          <div class="gallery-main">
+            <img src="img/wallet-front.png" alt="El Yapımı Hakiki Deri Erkek Cüzdan" id="mainImage">
+          </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="product-info-section animate-on-scroll">
+          <span class="section-label">Wilderidge Craft</span>
+          <h1>El Yapımı Hakiki Deri Erkek Cüzdan</h1>
+          <p class="product-subtitle">Çıtçıtlı Minimal Tasarım – Kartlık & Para Bölmeli</p>
+          
+          <div class="barcode-badge">
+            📊 Barkod: 684963576804
+          </div>
+
+          <p class="product-description">
+            %100 hakiki deriden, geleneksel zanaatkârlık yöntemleriyle el yapımı olarak üretilen minimal tasarım erkek cüzdan. 
+            Çıtçıtlı kapak sistemi ile güvenli taşıma, kartlık ve para bölmesi ile günlük kullanım için pratik çözüm sunar. 
+            Dikey tasarımı sayesinde cebinizde minimum yer kaplar. Organik ve sürdürülebilir üretim yaklaşımımızla, 
+            doğaya saygılı bir ürün deneyimi sunuyoruz.
+          </p>
+
+          <!-- Specs Table -->
+          <table class="specs-table">
+            <tr>
+              <td>Materyal</td>
+              <td>Deri (%100 Hakiki Deri)</td>
+            </tr>
+            <tr>
+              <td>Deri Kalitesi</td>
+              <td>Gerçek Deri</td>
+            </tr>
+            <tr>
+              <td>Renk</td>
+              <td>Siyah</td>
+            </tr>
+            <tr>
+              <td>Tip</td>
+              <td>Dikey</td>
+            </tr>
+            <tr>
+              <td>Boyut</td>
+              <td>Küçük Boy</td>
+            </tr>
+            <tr>
+              <td>Desen</td>
+              <td>Düz</td>
+            </tr>
+            <tr>
+              <td>Ortam</td>
+              <td>Business</td>
+            </tr>
+            <tr>
+              <td>Sürdürülebilirlik</td>
+              <td>Organik</td>
+            </tr>
+            <tr>
+              <td>Paket İçeriği</td>
+              <td>1'li</td>
+            </tr>
+            <tr>
+              <td>Yaş Grubu</td>
+              <td>Tüm Yaş Grupları</td>
+            </tr>
+            <tr>
+              <td>Menşei</td>
+              <td>🇹🇷 Türkiye</td>
+            </tr>
+            <tr>
+              <td>Bakım</td>
+              <td>Deri Bakım Kremi ile bakım yapılır</td>
+            </tr>
+          </table>
+
+          <div class="product-cta-group">
+            <a href="https://www.trendyol.com/bakani-leather/el-yapimi-hakiki-deri-erkek-cuzdan-citcitli-minimal-tasarim-kartlik-para-bolmeli-p-1116786589" target="_blank" rel="noopener" class="trendyol-link">
+              🛒 Trendyol'da Satın Al
+            </a>
+            <a href="iletisim.html" class="btn btn-outline">
+              İletişime Geç
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHOTO SHOWCASE -->
+  <section class="photo-showcase" style="background: var(--color-surface);">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <span class="section-label">Fotoğraf Galerisi</span>
+        <h2 class="section-title">Ürün Detayları</h2>
+      </div>
+      <div class="photo-showcase-grid">
+        <div class="photo-showcase-card animate-on-scroll">
+          <img src="img/wallet-open.png" alt="Para Bölmesi Detay">
+          <div class="photo-showcase-caption">
+            <h3>Para Bölmesi</h3>
+            <p>Kağıt para bölmesi ile pratik kullanım</p>
+          </div>
+        </div>
+        <div class="photo-showcase-card animate-on-scroll">
+          <img src="img/wallet-hand.png" alt="Kompakt Boyut">
+          <div class="photo-showcase-caption">
+            <h3>Kompakt Boyut</h3>
+            <p>Elde rahat kavranabilen ergonomik yapı</p>
+          </div>
+        </div>
+        <div class="photo-showcase-card animate-on-scroll">
+          <img src="img/wallet-lifestyle.png" alt="Günlük Kullanım">
+          <div class="photo-showcase-caption">
+            <h3>Günlük Kullanım</h3>
+            <p>Business ve günlük hayata uygun şık tasarım</p>
+          </div>
+        </div>
+        <div class="photo-showcase-card animate-on-scroll">
+          <img src="img/wallet-original.jpg" alt="Çıtçıtlı Kapak Detay">
+          <div class="photo-showcase-caption">
+            <h3>Çıtçıtlı Kapak</h3>
+            <p>Pirinç çıtçıt ile güvenli kapanma sistemi</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT HIGHLIGHTS -->
+  <section class="features">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 4rem;">
+        <span class="section-label">Özellikler</span>
+        <h2 class="section-title">Neden Wilderidge Craft?</h2>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card animate-on-scroll">
+          <span class="feature-icon">🐂</span>
+          <h3>%100 Hakiki Deri</h3>
+          <p>Birinci sınıf gerçek deri kullanılarak üretilmiştir. Zamanla güzelleşen doğal patina etkisi.</p>
+        </div>
+        <div class="feature-card animate-on-scroll">
+          <span class="feature-icon">🤲</span>
+          <h3>El Yapımı Üretim</h3>
+          <p>Her bir ürün, deneyimli ustaların ellerinde tek tek özenle üretilmektedir.</p>
+        </div>
+        <div class="feature-card animate-on-scroll">
+          <span class="feature-icon">🌿</span>
+          <h3>Organik & Sürdürülebilir</h3>
+          <p>Doğaya saygılı üretim süreçleri ile organik ve sürdürülebilir ürün anlayışı.</p>
+        </div>
+        <div class="feature-card animate-on-scroll">
+          <span class="feature-icon">📦</span>
+          <h3>Ücretsiz İade</h3>
+          <p>15 gün içinde ücretsiz iade imkanı. Ürün kalitemize güvenimizin kanıtı.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner">
+    <div class="container">
+      <h2>Hemen Sipariş Verin</h2>
+      <p>El yapımı hakiki deri cüzdanımızı Trendyol üzerinden güvenle satın alabilirsiniz.</p>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="https://www.trendyol.com/bakani-leather/el-yapimi-hakiki-deri-erkek-cuzdan-citcitli-minimal-tasarim-kartlik-para-bolmeli-p-1116786589" target="_blank" rel="noopener" class="trendyol-link">
+          🛒 Trendyol'da Satın Al
+        </a>
+        <a href="iletisim.html" class="btn btn-outline">
+          İletişime Geç
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <span class="logo-brand">Wilderidge Craft</span>
+            <span class="logo-tagline">Handcrafted Leather Goods</span>
+          </a>
+          <p>El yapımı hakiki deri ürünler. Geleneksel zanaatkârlık ile modern tasarımı buluşturan premium marka.</p>
+          <div class="social-links">
+            <a href="#" class="social-link" aria-label="Instagram">📷</a>
+            <a href="#" class="social-link" aria-label="Facebook">📘</a>
+            <a href="#" class="social-link" aria-label="Twitter">🐦</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Sayfalar</h4>
+          <ul>
+            <li><a href="index.html">Ana Sayfa</a></li>
+            <li><a href="hakkimizda.html">Hakkımızda</a></li>
+            <li><a href="urunlerimiz.html">Ürünlerimiz</a></li>
+            <li><a href="iletisim.html">İletişim</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Ürün</h4>
+          <ul>
+            <li><a href="urunlerimiz.html">Hakiki Deri Cüzdan</a></li>
+            <li><a href="urunlerimiz.html">Ürün Özellikleri</a></li>
+            <li><a href="https://www.trendyol.com/bakani-leather/el-yapimi-hakiki-deri-erkek-cuzdan-citcitli-minimal-tasarim-kartlik-para-bolmeli-p-1116786589" target="_blank">Trendyol Mağaza</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>İletişim</h4>
+          <ul>
+            <li><a href="mailto:info@wilderidgecraft.com">info@wilderidgecraft.com</a></li>
+            <li><a href="tel:+905001234567">+90 (500) 123 45 67</a></li>
+            <li><a href="iletisim.html">İstanbul, Türkiye</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Wilderidge Craft. Tüm hakları saklıdır.</p>
+        <p>El Yapımı Hakiki Deri Ürünler</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script>
+    // Image Gallery
+    function changeImage(src, thumbEl) {
+      const mainImg = document.getElementById('mainImage');
+      mainImg.style.opacity = '0';
+      setTimeout(() => {
+        mainImg.src = src;
+        mainImg.style.opacity = '1';
+      }, 200);
+
+      // Update active thumb
+      document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+      thumbEl.classList.add('active');
+    }
+  </script>
+</body>
+</html>
