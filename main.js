@@ -44,11 +44,16 @@ function initMobileMenu() {
   hamburger.addEventListener('click', toggleMenu);
   if (overlay) overlay.addEventListener('click', toggleMenu);
 
-  // Close menu on link click
+  // Close menu on link click (allow navigation first)
   navLinks.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
+    link.addEventListener('click', (e) => {
       if (navLinks.classList.contains('open')) {
+        const href = link.getAttribute('href');
+        e.preventDefault();
         toggleMenu();
+        setTimeout(() => {
+          window.location.href = href;
+        }, 150);
       }
     });
   });
